@@ -51,8 +51,29 @@ module.exports.findFactsCount = function() {
       console.log(`facts count not found`);
       return Promise.reject(new Error(`facts count not found`));
     }
+    return response.Count;
+  });
+};
+
+
+
+module.exports.findFactsId = function(id) {
+  const params = {
+    TableName: 'cannabis_facts',
+    Key: {
+      id
+    }
+  };
+
+  const getAsync = promisify(dynamo.get, dynamo);
+
+  return getAsync(params).then(response => {
+    if (_.isEmpty(response)) {
+      console.log(`fact cannot be found`);
+      return Promise.reject(new Error(`fact cannot be found`));
+    }
     console.log(response);
-    return response;
+    return response.Item;
   });
 };
 
