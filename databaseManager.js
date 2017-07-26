@@ -37,24 +37,24 @@ module.exports.findUserFactsId = function(userId) {
 };
 
 
+
 module.exports.findFactsCount = function() {
-  const params = {
+ const params = {
     TableName: 'cannabis_facts',
-    Select:'COUNT'
+    Select: 'COUNT'
   };
 
-  const getAsync = promisify(dynamo.get, dynamo);
+  const getAsync = promisify(dynamo.scan, dynamo);
 
   return getAsync(params).then(response => {
     if (_.isEmpty(response)) {
       console.log(`facts count not found`);
       return Promise.reject(new Error(`facts count not found`));
     }
-    conosole.log(response);
-    return response.count;
+    console.log(response);
+    return response;
   });
 };
-
 
 
 
